@@ -32,6 +32,7 @@ class BloggerPlugin extends Omeka_Plugin_AbstractPlugin
             return;
         }
         
+        if(simplexml_load_string(file_get_contents($args['url']))){
         $feed = array();
         try {
             $feed = new Zend_Feed_Rss($args['url']);
@@ -61,7 +62,10 @@ class BloggerPlugin extends Omeka_Plugin_AbstractPlugin
         }
 
         $html = $view->partial('blog.php', array('posts' => $feed, 'display' => $display, 'limit' => $limit, 'links' => $links, 'more' => $more));
-        return $html;
+        return $html;} 
+        else {
+        echo "<h2> An RSS news feed below is not loading correctly. E-mail us at XXXX. </h2>";
+        }
     }
    
 }

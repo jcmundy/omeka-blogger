@@ -31,8 +31,13 @@ class BloggerPlugin extends Omeka_Plugin_AbstractPlugin
         if (!isset($args['url'])) {
             return;
         }
-        
-        if(simplexml_load_string(file_get_contents($args['url']))){
+        libxml_use_internal_errors(true);
+
+        $xml = file_get_contents($args['url']);
+        $xmlerrors = explode('\n', $xml);
+        if(simplexml_load_string($xml)){
+        $errors = libxml_get_errors();
+        libxml_clear_errors();
         $feed = array();
         try {
             $feed = new Zend_Feed_Rss($args['url']);
